@@ -2,10 +2,11 @@
 #define CANPROTOCOL_H
 #define CanPtcDbgEn 0
 
-#include "anlogger.h"
-#include "commonthings.h"
 #include <QCanBusFrame>
 #include <QByteArray>
+#include "anlogger.h"
+#include "commonthings.h"
+
 
 class CanProtocol : public QCanBusFrame
 {
@@ -19,23 +20,31 @@ public:
 
     bool IsOfRightFormat() const;
 
-    CanProtocol &SetSdcsId(quint8 sdcsid);
-    CanProtocol &SetChId(quint8 chid);
-    CanProtocol &SetRFID(const QByteArray &rfid);
-    CanProtocol &SetValveControl(bool SetBit, bool ResetBit);
-    CanProtocol &SetValveOn();
-    CanProtocol &SetValveOff();
+    CanProtocol &setSdcsId(const quint8 sdcsid);
+    CanProtocol &setChId(const quint8 chid);
+    CanProtocol &setRFID(const QByteArray &rfid);
+    CanProtocol &setValveControl(const bool SetBit,const bool ResetBit);
+    CanProtocol &setValveOn();
+    CanProtocol &setValveOff();
+    CanProtocol &makeDataRequest();
 
-    const QCanBusFrame &GetMsg() const;
-    const QString GetMsgStr() const;
+    const QCanBusFrame &getMsg() const;
+    const QString getMsgStr() const;
 
-    quint8 GetSdcsId() const;
-    quint8 GetChId() const;
-    const QByteArray GetRFID() const;
-    quint8 GetValveControl() const;
-    quint8 GetValveStatus() const;
+    const QString getMsgType() const;
+    const QString getMsgMean() const;
 
-    static const CanProtocol &PresentRequest;
+    quint8 getSdcsId() const;
+    quint8 getChId() const;
+    const QByteArray getRFID() const;
+    quint8 getValveControl() const;
+    quint8 getValveStatus() const;
+
+
+
+
+    static const CanProtocol PresenceRequest;
+    static const CanProtocol &DataRequest(const quint8 sdcsid);
 };
 
 #endif // CANPROTOCOL_H

@@ -32,15 +32,15 @@ inline QByteArray &operator <<(QByteArray &QBArr, const QByteArray &Data)
 }
 
 template <typename TN>
-const QHash<TN, QString> SwapKeyValOnOneToOneQHash(const QHash<QString, TN> &AQHashKeyValSet)
+const QHash<TN, QString> SwapKeyValOnOneToOneQHash(const QHash<QString, TN> &AQHashKeyValset)
 {
     QHash<TN, QString> &tmp = * new QHash<TN, QString>();
     QString tmp2 = "";
-    auto KeyItr = AQHashKeyValSet.keyBegin();
-    for (; KeyItr!=AQHashKeyValSet.keyEnd(); KeyItr++)
+    auto KeyItr = AQHashKeyValset.keyBegin();
+    for (; KeyItr!=AQHashKeyValset.keyEnd(); KeyItr++)
     {
         tmp2 = *KeyItr;
-        tmp.insert(AQHashKeyValSet.value(tmp2), tmp2);
+        tmp.insert(AQHashKeyValset.value(tmp2), tmp2);
     }
     return tmp;
 }

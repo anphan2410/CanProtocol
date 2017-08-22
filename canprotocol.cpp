@@ -45,7 +45,7 @@ bool CanProtocol::IsOfRightFormat() const
     return false;
 }
 
-CanProtocol &CanProtocol::SetSdcsId(quint8 sdcsid)
+CanProtocol &CanProtocol::setSdcsId(const quint8 sdcsid)
 {
     setFrameId((frameId()&0x0f)|(sdcsid<<4));
     anIf(CanPtcDbgEn,
@@ -54,7 +54,7 @@ CanProtocol &CanProtocol::SetSdcsId(quint8 sdcsid)
     return *this;
 }
 
-CanProtocol &CanProtocol::SetChId(quint8 chid)
+CanProtocol &CanProtocol::setChId(const quint8 chid)
 {
     setFrameId((frameId()&0xf0)|chid);
     anIf(CanPtcDbgEn,
@@ -63,7 +63,7 @@ CanProtocol &CanProtocol::SetChId(quint8 chid)
     return *this;
 }
 
-CanProtocol &CanProtocol::SetRFID(const QByteArray &rfid)
+CanProtocol &CanProtocol::setRFID(const QByteArray &rfid)
 {
     QByteArray QBArrTmp( 5-rfid.size(), '\0');
     QBArrTmp << rfid;
@@ -86,7 +86,7 @@ CanProtocol &CanProtocol::SetRFID(const QByteArray &rfid)
     return *this;
 }
 
-CanProtocol &CanProtocol::SetValveControl(bool SetBit, bool ResetBit)
+CanProtocol &CanProtocol::setValveControl(const bool SetBit, const bool ResetBit)
 {
     quint8 QInt8Tmp = payload().size()-1;
     quint8 AByte = payload().at(QInt8Tmp);
@@ -105,37 +105,80 @@ CanProtocol &CanProtocol::SetValveControl(bool SetBit, bool ResetBit)
     return *this;
 }
 
-CanProtocol &CanProtocol::SetValveOn()
+CanProtocol &CanProtocol::setValveOn()
 {
-    return SetValveControl(true,false);
+    return setValveControl(true,false);
 }
 
-CanProtocol &CanProtocol::SetValveOff()
+CanProtocol &CanProtocol::setValveOff()
 {
-    return SetValveControl(false,true);
+    return setValveControl(false,true);
 }
 
-const QCanBusFrame &CanProtocol::GetMsg() const
+CanProtocol &CanProtocol::makeDataRequest()
+{
+    this->setChId(7).setPayload(".");
+    return *this;
+}
+
+const QCanBusFrame &CanProtocol::getMsg() const
 {
     return *this;
 }
 
-const QString CanProtocol::GetMsgStr() const
+const QString CanProtocol::getMsgStr() const
 {
-    return GetMsg().toString();
+    return getMsg().toString();
 }
 
-quint8 CanProtocol::GetSdcsId() const
+const QString CanProtocol::getMsgType() const
+{
+    QString tmpReturn;
+    if (payload().size()>1)
+        tmpReturn=QStringLiteral("Receive");
+    else if (payload().size()==1)
+    {
+        if (getChId()==15)
+            tmpReturn=QStringLiteral("Receive");
+        else
+            tmpReturn=QStringLiteral("Transmit");
+    }
+    else
+        tmpReturn=QStringLiteral("Unknown");
+    return tmpReturn;
+}
+
+const QString CanProtocol::getMsgMean() const
+{
+    quint8 tmpInt = getChId();
+    QString tmpReturn;
+    if (payload().size()>1)
+        tmpReturn=QStringLiteral("Data response ")+QString::number(tmpInt+1);
+    else if (payload().size()==1)
+    {
+        if (tmpInt==15)
+            tmpReturn=QStringLiteral("Presence response");
+        else if (tmpInt==0)
+            tmpReturn=QStringLiteral("Presence request");
+        else if (tmpInt==7)
+            tmpReturn=QStringLiteral("Data request");
+    }
+    else
+        tmpReturn=QStringLiteral("Unknown");
+    return tmpReturn;
+}
+
+quint8 CanProtocol::getSdcsId() const
 {
     return (frameId()&0xf0)>>4;
 }
 
-quint8 CanProtocol::GetChId() const
+quint8 CanProtocol::getChId() const
 {
     return frameId()&0x0f;
 }
 
-const QByteArray CanProtocol::GetRFID() const
+const QByteArray CanProtocol::getRFID() const
 {
     quint8 QInt8Tmp = payload().size();
     if (QInt8Tmp>=8)
@@ -144,14 +187,20 @@ const QByteArray CanProtocol::GetRFID() const
         return "@#$%&";
 }
 
-quint8 CanProtocol::GetValveControl() const
+quint8 CanProtocol::getValveControl() const
 {
     return payload().at(payload().size()-1)&0x03;
 }
 
-quint8 CanProtocol::GetValveStatus() const
+quint8 CanProtocol::getValveStatus() const
 {
     return (payload().at(payload().size()-1)&0x0c)>>2;
 }
 
-const CanProtocol &CanProtocol::PresentRequest = * new CanProtocol(0xf0,".");
+const CanProtocol &CanProtocol::DataRequest(const quint8 sdcsid)
+{
+    CanProtocol * tmpReturn = new CanProtocol();
+    return tmpReturn->setSdcsId(sdcsid).makeDataRequest();
+}
+
+const CanProtocol CanProtocol::PresenceRequest = CanProtocol(0xf0,".");
