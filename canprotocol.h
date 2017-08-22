@@ -27,6 +27,7 @@ public:
     CanProtocol &setValveOn();
     CanProtocol &setValveOff();
     CanProtocol &makeDataRequest();
+    CanProtocol &makePresenceResponse();
 
     const QCanBusFrame &getMsg() const;
     const QString getMsgStr() const;
@@ -41,10 +42,9 @@ public:
     quint8 getValveStatus() const;
 
 
-
-
     static const CanProtocol PresenceRequest;
     static const CanProtocol &DataRequest(const quint8 sdcsid);
+    static const CanProtocol &PresenceResponse(const quint8 sdcsid);
 };
 
 #endif // CANPROTOCOL_H

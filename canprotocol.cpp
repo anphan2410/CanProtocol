@@ -121,6 +121,12 @@ CanProtocol &CanProtocol::makeDataRequest()
     return *this;
 }
 
+CanProtocol &CanProtocol::makePresenceResponse()
+{
+    this->setChId(15).setPayload(".");
+    return *this;
+}
+
 const QCanBusFrame &CanProtocol::getMsg() const
 {
     return *this;
@@ -201,6 +207,12 @@ const CanProtocol &CanProtocol::DataRequest(const quint8 sdcsid)
 {
     CanProtocol * tmpReturn = new CanProtocol();
     return tmpReturn->setSdcsId(sdcsid).makeDataRequest();
+}
+
+const CanProtocol &CanProtocol::PresenceResponse(const quint8 sdcsid)
+{
+    CanProtocol * tmpReturn = new CanProtocol();
+    return tmpReturn->setSdcsId(sdcsid).makePresenceResponse();
 }
 
 const CanProtocol CanProtocol::PresenceRequest = CanProtocol(0xf0,".");
