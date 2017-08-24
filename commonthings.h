@@ -68,10 +68,10 @@ inline static quint8 XORofAllBytesInQByteArr(const QByteArray &QBArr)
 /// \return QByteArray contains a hex number
 ///         representing an integer number encoded by Ascii code
 ///
-inline static const QByteArray IntStr2QBArr0Pad(const quint32 Num, const quint8 SizeInByte)
+inline static const QByteArray IntStr2QBArr0Pad(const quint32 Num, const quint8 SizeInByte, char padChar = '0')
 {
     QString QStrTmp = QString::number(Num);
-    return QStrTmp.prepend(QString("").fill('0',SizeInByte-QStrTmp.size())).toLocal8Bit();
+    return QStrTmp.prepend(QString("").fill(padChar,SizeInByte-QStrTmp.size())).toLocal8Bit();
 }
 
 
