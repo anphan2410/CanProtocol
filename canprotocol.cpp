@@ -127,6 +127,20 @@ CanProtocol &CanProtocol::makePresenceResponse()
     return *this;
 }
 
+const CanProtocol CanProtocol::getDataRequest()
+{
+    CanProtocol tmpReturn=*this;
+    tmpReturn.makeDataRequest();
+    return tmpReturn;
+}
+
+const CanProtocol CanProtocol::getPresenceResponse()
+{
+    CanProtocol tmpReturn=*this;
+    tmpReturn.makePresenceResponse();
+    return tmpReturn;
+}
+
 const QCanBusFrame &CanProtocol::getMsg() const
 {
     return *this;
