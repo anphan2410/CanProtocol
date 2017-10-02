@@ -1,10 +1,10 @@
 #ifndef CANPROTOCOL_H
 #define CANPROTOCOL_H
-#define CanPtcDbgEn 0
+#define CanPtcDbgEn 1
 
 #include <QCanBusFrame>
 #include <QByteArray>
-#include "anlogger.h"
+#include "anlogger.h/anlogger.h"
 #include "commonthings.h"
 
 
