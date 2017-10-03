@@ -11,7 +11,7 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     canprotocol.cpp \
-    anlogger.h/anlogger.cpp
+    anLogger/anlogger.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -27,4 +27,4 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     canprotocol.h \
     commonthings.h \
-    anlogger.h/anlogger.h
+    anLogger/anlogger.h
