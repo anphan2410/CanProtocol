@@ -26,5 +26,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     canprotocol.h \
-    commonthings.h \
-    anLogger/anlogger.h
+    anLogger/anlogger.h \
+    edctuCommons/commonthings.h
