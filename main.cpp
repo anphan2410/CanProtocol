@@ -1,5 +1,5 @@
 #include <QCoreApplication>
-#include "canprotocol.h"
+#include "src/canprotocol.h"
 
 int main(int argc, char *argv[])
 {
