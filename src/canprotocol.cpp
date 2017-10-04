@@ -9,10 +9,15 @@ CanProtocol::CanProtocol()
 CanProtocol::CanProtocol(const quint8 &identifier, const QByteArray &data)
     :QCanBusFrame(identifier,data)
 {
-    anIf(CanPtcDbgEn,
-           anTrk("Object Constructed")
-           anInfo("Id/hex="<<QByteArray::number(frameId(),16))
-           anInfo("Data/hex="<<payload().toHex()));
+    //This part of code causes segmentation fault on Windows,
+    //but run fine on pi.
+    //Reason is unidentified.
+    #ifndef __anWINOS__
+        anIf(CanPtcDbgEn,
+               anTrk("Object Constructed")
+               anInfo("Id/hex="<<QByteArray::number(frameId(),16))
+               anInfo("Data/hex="<<payload().toHex()));
+    #endif
 }
 
 CanProtocol::CanProtocol(const QCanBusFrame &CanMsg)
