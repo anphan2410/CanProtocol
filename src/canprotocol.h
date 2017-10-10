@@ -48,8 +48,8 @@ public:
 
 
     static const CanProtocol &PresenceRequest;
-    static const CanProtocol &DataRequest(const quint8 &sdcsid);
-    static const CanProtocol &PresenceResponse(const quint8 &sdcsid);
+    static const CanProtocol DataRequest(const quint8 &sdcsid);
+    static const CanProtocol PresenceResponse(const quint8 &sdcsid);
 };
 
 #endif // CANPROTOCOL_H
